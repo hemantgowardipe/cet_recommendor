@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+import joblib
 import pandas as pd
 import os
 
@@ -150,6 +151,37 @@ def debug_columns():
     df = pd.read_csv(path)
     return jsonify({"columns": list(df.columns)})
 
+
+# Load trained model once at startup
+model = joblib.load("model.pkl")
+
+@app.route('/predict', methods=['POST'])
+def predict_admission():
+    try:
+        data = request.get_json()
+
+        # Extract features
+        features = {
+            "percentile": float(data.get("percentile")),
+            "rank": int(data.get("rank")),
+            "branch": data.get("branch"),
+            "seat_type": data.get("seat_type"),
+            "category": data.get("category"),
+            "score_type": data.get("score_type"),
+            "gender": data.get("gender")
+        }
+
+        # Convert to DataFrame
+        input_df = pd.DataFrame([features])
+
+        # Predict
+        prediction = model.predict(input_df)
+
+        return jsonify({"predicted_college": prediction[0]})
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+        
 
 if __name__ == '__main__':
     app.run(debug=True)

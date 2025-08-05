@@ -3,6 +3,7 @@ import {
   ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend,
   BarChart, Bar
 } from 'recharts';
+import AdmissionPredictor from "./components/AdmissionPredictor";
 import { Search, MapPin, BookOpen, TrendingUp, Download, X, Filter, Eye, Sparkles, BarChart3, ArrowRight, Users, Award, Clock, Info } from 'lucide-react';
 
 function App() {
@@ -28,6 +29,8 @@ function App() {
   const [trendBranch, setTrendBranch] = useState("");
   const [trendData, setTrendData] = useState([]);
   const [activeTab, setActiveTab] = useState('search');
+  const [showPredictionModal, setShowPredictionModal] = useState(false);
+
 
   // Function to fetch trend 
   const fetchBranchTrends = async () => {
@@ -239,6 +242,15 @@ function App() {
                 Get personalized college recommendations based on your CET percentile, preferred cities, and branches
               </p>
             </div>
+            <button
+                className="fixed top-4 right-4 bg-indigo-600 text-white px-4 py-2 rounded shadow-md hover:bg-indigo-700 z-50"
+                onClick={() => setShowPredictionModal(true)}
+              >
+                Predict Admission
+              </button>
+              {showPredictionModal && (
+                <AdmissionPredictor onClose={() => setShowPredictionModal(false)} />
+              )}
 
             {/* Enhanced Form */}
             <div className="bg-white rounded-3xl shadow-xl border border-gray-200 overflow-hidden">
@@ -758,45 +770,36 @@ function App() {
                   
                   <div id="chartContainer" className="p-6">
                     <ResponsiveContainer width="100%" height={600}>
-                      <ScatterChart margin={{ top: 20, right: 30, bottom: 120, left: 20 }}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                        <XAxis 
-                          type="category" 
-                          dataKey="branch" 
-                          angle={-45} 
-                          textAnchor="end" 
-                          interval={0} 
-                          height={140}
-                          fontSize={11}
-                          stroke="#6b7280"
-                          tick={{ fill: '#6b7280' }}
-                        />
-                        <YAxis 
-                          type="number" 
-                          dataKey="percentile" 
-                          domain={[0, 100]} 
-                          fontSize={12}
-                          stroke="#6b7280"
-                          tick={{ fill: '#6b7280' }}
-                          label={{ value: 'Percentile (%)', angle: -90, position: 'insideLeft', style: { textAnchor: 'middle' } }}
-                        />
-                        <Tooltip content={<CustomTooltip />} />
-                        <Legend 
-                          wrapperStyle={{ paddingTop: '20px' }}
-                          iconType="circle"
-                        />
-                        {[...new Set(filteredData.map(d => d.seat_type))].map((type, i) => (
-                          <Scatter
-                            key={type}
-                            name={type}
-                            data={filteredData.filter(d => d.seat_type === type)}
-                            fill={getColor(i)}
-                            strokeWidth={2}
-                            stroke={getColor(i)}
-                            r={6}
-                          />
-                        ))}
-                      </ScatterChart>
+                      <ScatterChart margin={{ top: 20, right: 20, bottom: 100, left: 20 }}>
+                              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                              <XAxis 
+                                type="category" 
+                                dataKey="branch" 
+                                angle={-45} 
+                                textAnchor="end" 
+                                interval={0} 
+                                height={120}
+                                fontSize={12}
+                                stroke="#6b7280"
+                              />
+                              <YAxis 
+                                type="number" 
+                                dataKey="percentile" 
+                                domain={[0, 100]} 
+                                fontSize={12}
+                                stroke="#6b7280"
+                              />
+                              <Tooltip />
+                              <Legend />
+                              {[...new Set(filteredData.map(d => d.seat_type))].map((type, i) => (
+                                <Scatter
+                                  key={type}
+                                  name={type}
+                                  data={filteredData.filter(d => d.seat_type === type)}
+                                  fill={getColor(i)}
+                                />
+                              ))}
+                            </ScatterChart>
                     </ResponsiveContainer>
                   </div>
                 </div>
