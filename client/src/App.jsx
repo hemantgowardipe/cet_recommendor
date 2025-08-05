@@ -4,6 +4,7 @@ import {
   BarChart, Bar
 } from 'recharts';
 import AdmissionPredictor from "./components/AdmissionPredictor";
+import SeatTypesInfo from "./components/SeatTypesInfo";
 import { Search, MapPin, BookOpen, TrendingUp, Download, X, Filter, Eye, Sparkles, BarChart3, ArrowRight, Users, Award, Clock, Info } from 'lucide-react';
 
 function App() {
@@ -179,7 +180,7 @@ function App() {
                 <Sparkles className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-gray-900">CET College Recommender</h1>
+                <h1 className="text-xl font-bold text-gray-900 font-sans">CET College Recommender</h1>
                 <p className="text-sm text-gray-500">Find your perfect college match</p>
               </div>
             </div>
@@ -236,10 +237,10 @@ function App() {
                 AI-Powered College Recommendations
               </div>
               <h2 className="text-4xl font-bold text-gray-900 mb-4">
-                Find Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">Perfect College</span>
+                Find Your <span className="text-transparent bg-clip-text font-mono bg-gradient-to-r from-indigo-600 to-purple-600">Perfect College</span>
               </h2>
-              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                Get personalized college recommendations based on your CET percentile, preferred cities, and branches
+              <p className="text-xl text-gray-600 max-w-2xl mx-auto font-serif">
+                Get personalized college recommendations based on your CET percentile, preferred cities, and branches.
               </p>
             </div>
             <button
