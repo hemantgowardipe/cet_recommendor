@@ -3,7 +3,7 @@ services:
     name: cet-backend
     env: python
     buildCommand: ""
-    startCommand: python app.py
+    startCommand: gunicorn app:app
     runtime: python
     plan: free
     autoDeploy: true
