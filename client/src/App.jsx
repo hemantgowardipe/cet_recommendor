@@ -31,12 +31,12 @@ function App() {
   const [trendData, setTrendData] = useState([]);
   const [activeTab, setActiveTab] = useState('search');
   const [showPredictionModal, setShowPredictionModal] = useState(false);
-
+  const [showSeatTypesModal, setShowSeatTypesModal] = useState(false);
 
   // Function to fetch trend 
   const fetchBranchTrends = async () => {
     try {
-      const response = await fetch("http://localhost:5000/branch-trends");
+      const response = await fetch("https://cet-recommendor.onrender.com/branch-trends");
       const data = await response.json();
       setTrendsData(data);
       setShowTrends(true);
@@ -48,7 +48,7 @@ function App() {
   useEffect(() => {
     const fetchFilters = async () => {
       try {
-        const response = await fetch("http://localhost:5000/filters");
+        const response = await fetch("https://cet-recommendor.onrender.com/filters");
         const data = await response.json();
         setCityOptions(data.cities);
         setBranchOptions(data.branches);
@@ -91,7 +91,7 @@ function App() {
     setResults([]);
 
     try {
-      const response = await fetch("http://localhost:5000/recommend", {
+      const response = await fetch("https://cet-recommendor.onrender.com/recommend", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -121,7 +121,7 @@ function App() {
   
   const fetchCollegeStats = async (collegeName, branch = null, percentile = null) => {
     try {
-      let url = `http://localhost:5000/college-stats?college=${encodeURIComponent(collegeName)}`;
+      let url = `https://cet-recommendor.onrender.com/college-stats?college=${encodeURIComponent(collegeName)}`;
 
       if (branch) url += `&branch=${encodeURIComponent(branch)}`;
       if (percentile) url += `&percentile=${percentile}`;
@@ -145,7 +145,7 @@ function App() {
 
     try {
       const res = await fetch(
-        `http://localhost:5000/branch-trend?college=${encodeURIComponent(trendCollege)}&branch=${encodeURIComponent(trendBranch)}`
+        `https://cet-recommendor.onrender.com/branch-trend?college=${encodeURIComponent(trendCollege)}&branch=${encodeURIComponent(trendBranch)}`
       );
       if (!res.ok) throw new Error("Failed to fetch trend data");
 
@@ -249,8 +249,32 @@ function App() {
               >
                 Predict Admission
               </button>
+              <button
+                className="fixed top-16 right-4 bg-green-600 text-white px-4 py-2 rounded shadow-md hover:bg-green-700 z-50"
+                onClick={() => setShowSeatTypesModal(true)}
+              >
+                Seat Types Info
+              </button>
               {showPredictionModal && (
                 <AdmissionPredictor onClose={() => setShowPredictionModal(false)} />
+              )}
+              {showSeatTypesModal && (
+                <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+                  <div className="bg-white rounded-3xl shadow-2xl max-w-7xl w-full max-h-[95vh] overflow-hidden">
+                    <div className="px-8 py-6 bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center justify-between">
+                      <h2 className="text-2xl font-bold text-white">Seat Types Information</h2>
+                      <button 
+                        onClick={() => setShowSeatTypesModal(false)}
+                        className="p-2 bg-white/20 hover:bg-white/30 rounded-xl transition-colors duration-200"
+                      >
+                        <X className="w-6 h-6 text-white" />
+                      </button>
+                    </div>
+                    <div className="p-8 overflow-y-auto max-h-[calc(95vh-100px)]">
+                      <SeatTypesInfo />
+                    </div>
+                  </div>
+                </div>
               )}
 
             {/* Enhanced Form */}
