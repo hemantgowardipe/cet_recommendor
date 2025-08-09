@@ -5,7 +5,11 @@ import {
 } from 'recharts';
 import AdmissionPredictor from "./components/AdmissionPredictor";
 import SeatTypesInfo from "./components/SeatTypesInfo";
-import { Search, MapPin, BookOpen, TrendingUp, Download, X, Filter, Eye, Sparkles, BarChart3, ArrowRight, Users, Award, Clock, Info } from 'lucide-react';
+import { 
+  Search, MapPin, BookOpen, TrendingUp, Download, X, Filter, Eye, Sparkles, 
+  BarChart3, ArrowRight, Users, Award, Clock, Info, ChevronDown, Star,
+  Building, GraduationCap, Target, AlertCircle, CheckCircle
+} from 'lucide-react';
 
 function App() {
   const [percentile, setPercentile] = useState("");
@@ -159,10 +163,10 @@ function App() {
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-white/95 backdrop-blur-sm p-4 rounded-xl shadow-lg border border-gray-200">
-          <p className="font-semibold text-gray-800">{`Branch: ${label}`}</p>
-          <p className="text-indigo-600">{`Percentile: ${payload[0].value}`}</p>
-          <p className="text-gray-600">{`Seat Type: ${payload[0].payload.seat_type}`}</p>
+        <div className="bg-white/95 backdrop-blur-sm p-4 rounded-xl shadow-xl border border-gray-200">
+          <p className="font-semibold text-gray-800 mb-1">{`Branch: ${label}`}</p>
+          <p className="text-indigo-600 font-medium">{`Percentile: ${payload[0].value}`}</p>
+          <p className="text-gray-600 text-sm">{`Seat Type: ${payload[0].payload.seat_type}`}</p>
         </div>
       );
     }
@@ -170,135 +174,203 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
-      {/* Navigation Header */}
-      <div className="sticky top-0 z-40 bg-white/80 backdrop-blur-xl border-b border-gray-200">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+      {/* Enhanced Navigation Header */}
+      <div className="sticky top-0 z-50 bg-white/85 backdrop-blur-xl border-b border-gray-200/80 shadow-sm">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl">
-                <Sparkles className="w-6 h-6 text-white" />
+            {/* Logo Section */}
+            <div className="flex items-center gap-4">
+              <div className="relative">
+                <div className="p-3 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 rounded-2xl shadow-lg">
+                  <GraduationCap className="w-7 h-7 text-white" />
+                </div>
+                <div className="absolute -top-1 -right-1 w-4 h-4 bg-yellow-400 rounded-full flex items-center justify-center">
+                  <Star className="w-2.5 h-2.5 text-yellow-800" />
+                </div>
               </div>
               <div>
-                <h1 className="text-xl font-bold text-gray-900 font-sans">CET College Recommender</h1>
-                <p className="text-sm text-gray-500">Find your perfect college match</p>
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-gray-900 via-indigo-800 to-purple-800 bg-clip-text text-transparent">
+                  CET College Recommender
+                </h1>
+                <p className="text-sm text-gray-600 font-medium">Smart AI-powered college recommendations</p>
               </div>
             </div>
             
-            <div className="flex items-center gap-2">
+            {/* Navigation Tabs */}
+            <div className="hidden md:flex items-center gap-2 bg-gray-100/80 p-2 rounded-2xl">
               <button
                 onClick={() => setActiveTab('search')}
-                className={`px-4 py-2 rounded-xl font-medium transition-all duration-200 ${
+                className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 flex items-center gap-2 ${
                   activeTab === 'search' 
-                    ? 'bg-indigo-100 text-indigo-700 shadow-sm' 
-                    : 'text-gray-600 hover:bg-gray-100'
+                    ? 'bg-white text-indigo-700 shadow-md scale-105' 
+                    : 'text-gray-600 hover:bg-white/60 hover:text-gray-800'
                 }`}
               >
-                <Search className="w-4 h-4 inline mr-2" />
-                Search
+                <Search className="w-4 h-4" />
+                Search Colleges
               </button>
               <button
                 onClick={() => setActiveTab('trends')}
-                className={`px-4 py-2 rounded-xl font-medium transition-all duration-200 ${
+                className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 flex items-center gap-2 ${
                   activeTab === 'trends' 
-                    ? 'bg-indigo-100 text-indigo-700 shadow-sm' 
-                    : 'text-gray-600 hover:bg-gray-100'
+                    ? 'bg-white text-indigo-700 shadow-md scale-105' 
+                    : 'text-gray-600 hover:bg-white/60 hover:text-gray-800'
                 }`}
               >
-                <BarChart3 className="w-4 h-4 inline mr-2" />
-                Branch Trends
+                <BarChart3 className="w-4 h-4" />
+                Analytics
               </button>
               {results.length > 0 && (
                 <button
                   onClick={() => setActiveTab('results')}
-                  className={`px-4 py-2 rounded-xl font-medium transition-all duration-200 ${
+                  className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 flex items-center gap-2 relative ${
                     activeTab === 'results' 
-                      ? 'bg-indigo-100 text-indigo-700 shadow-sm' 
-                      : 'text-gray-600 hover:bg-gray-100'
+                      ? 'bg-white text-indigo-700 shadow-md scale-105' 
+                      : 'text-gray-600 hover:bg-white/60 hover:text-gray-800'
                   }`}
                 >
-                  <BookOpen className="w-4 h-4 inline mr-2" />
-                  Results ({results.length})
+                  <BookOpen className="w-4 h-4" />
+                  Results
+                  <span className="absolute -top-2 -right-2 bg-green-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
+                    {results.length}
+                  </span>
                 </button>
               )}
+            </div>
+
+            {/* Mobile Navigation Dropdown */}
+            <div className="md:hidden">
+              <select 
+                value={activeTab} 
+                onChange={(e) => setActiveTab(e.target.value)}
+                className="px-4 py-2 bg-white/90 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              >
+                <option value="search">Search</option>
+                <option value="trends">Analytics</option>
+                {results.length > 0 && <option value="results">Results ({results.length})</option>}
+              </select>
             </div>
           </div>
         </div>
       </div>
 
+      {/* Floating Action Buttons */}
+      <div className="fixed bottom-6 right-6 z-40 flex flex-col gap-3">
+        <button
+          onClick={() => setShowPredictionModal(true)}
+          className="group bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white p-4 rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-300"
+        >
+          <Target className="w-6 h-6" />
+          <div className="absolute right-full top-1/2 -translate-y-1/2 mr-3 px-3 py-1 bg-gray-900 text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+            Predict Admission
+          </div>
+        </button>
+        <button
+          onClick={() => setShowSeatTypesModal(true)}
+          className="group bg-gradient-to-r from-violet-500 to-purple-600 hover:from-violet-600 hover:to-purple-700 text-white p-4 rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-300"
+        >
+          <Info className="w-6 h-6" />
+          <div className="absolute right-full top-1/2 -translate-y-1/2 mr-3 px-3 py-1 bg-gray-900 text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+            Seat Types Info
+          </div>
+        </button>
+      </div>
+
+      {/* Modals */}
+      {showPredictionModal && (
+        <AdmissionPredictor onClose={() => setShowPredictionModal(false)} />
+      )}
+      {showSeatTypesModal && (
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl shadow-2xl max-w-7xl w-full max-h-[95vh] overflow-hidden">
+            <div className="px-8 py-6 bg-gradient-to-r from-violet-600 to-purple-600 flex items-center justify-between">
+              <h2 className="text-2xl font-bold text-white flex items-center gap-3">
+                <Info className="w-6 h-6" />
+                Seat Types Information
+              </h2>
+              <button 
+                onClick={() => setShowSeatTypesModal(false)}
+                className="p-2 bg-white/20 hover:bg-white/30 rounded-xl transition-colors duration-200"
+              >
+                <X className="w-6 h-6 text-white" />
+              </button>
+            </div>
+            <div className="p-8 overflow-y-auto max-h-[calc(95vh-100px)]">
+              <SeatTypesInfo />
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="max-w-7xl mx-auto px-6 py-8">
         {/* Search Tab */}
         {activeTab === 'search' && (
-          <div className="space-y-8">
-            {/* Hero Section */}
-            <div className="text-center py-12">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-100 text-indigo-700 rounded-full text-sm font-medium mb-6">
-                <Award className="w-4 h-4" />
-                AI-Powered College Recommendations
+          <div className="space-y-10">
+            {/* Enhanced Hero Section */}
+            <div className="text-center py-16">
+              <div className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700 rounded-full text-sm font-semibold mb-8 shadow-md">
+                <Sparkles className="w-5 h-5" />
+                Powered by Advanced AI Analytics
               </div>
-              <h2 className="text-4xl font-bold text-gray-900 mb-4">
-                Find Your <span className="text-transparent bg-clip-text font-mono bg-gradient-to-r from-indigo-600 to-purple-600">Perfect College</span>
+              <h2 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+                Find Your 
+                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 mt-2">
+                  Dream College
+                </span>
               </h2>
-              <p className="text-xl text-gray-600 max-w-2xl mx-auto font-serif">
-                Get personalized college recommendations based on your CET percentile, preferred cities, and branches.
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                Discover the perfect engineering college match based on your CET percentile, 
+                preferred locations, and academic interests with our intelligent recommendation system.
               </p>
+              
+              {/* Stats */}
+              <div className="flex justify-center items-center gap-8 mt-12">
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-indigo-600">1K+</div>
+                  <div className="text-gray-600 text-sm">Colleges Analyzed</div>
+                </div>
+                <div className="w-px h-12 bg-gray-300"></div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-purple-600">50+</div>
+                  <div className="text-gray-600 text-sm">Engineering Branches</div>
+                </div>
+                <div className="w-px h-12 bg-gray-300"></div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-pink-600">100%</div>
+                  <div className="text-gray-600 text-sm">Accurate Results</div>
+                </div>
+              </div>
             </div>
-            <button
-                className="fixed top-4 right-4 bg-indigo-600 text-white px-4 py-2 rounded shadow-md hover:bg-indigo-700 z-50"
-                onClick={() => setShowPredictionModal(true)}
-              >
-                Predict Admission
-              </button>
-              <button
-                className="fixed top-16 right-4 bg-green-600 text-white px-4 py-2 rounded shadow-md hover:bg-green-700 z-50"
-                onClick={() => setShowSeatTypesModal(true)}
-              >
-                Seat Types Info
-              </button>
-              {showPredictionModal && (
-                <AdmissionPredictor onClose={() => setShowPredictionModal(false)} />
-              )}
-              {showSeatTypesModal && (
-                <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-                  <div className="bg-white rounded-3xl shadow-2xl max-w-7xl w-full max-h-[95vh] overflow-hidden">
-                    <div className="px-8 py-6 bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center justify-between">
-                      <h2 className="text-2xl font-bold text-white">Seat Types Information</h2>
-                      <button 
-                        onClick={() => setShowSeatTypesModal(false)}
-                        className="p-2 bg-white/20 hover:bg-white/30 rounded-xl transition-colors duration-200"
-                      >
-                        <X className="w-6 h-6 text-white" />
-                      </button>
-                    </div>
-                    <div className="p-8 overflow-y-auto max-h-[calc(95vh-100px)]">
-                      <SeatTypesInfo />
+
+            {/* Enhanced Search Form */}
+            <div className="bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden">
+              <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 px-8 py-8">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="text-3xl font-bold text-white mb-2">College Search</h3>
+                    <p className="text-indigo-100 text-lg">Enter your details to discover your perfect college matches</p>
+                  </div>
+                  <div className="hidden md:block">
+                    <div className="p-4 bg-white/20 rounded-2xl">
+                      <Search className="w-8 h-8 text-white" />
                     </div>
                   </div>
                 </div>
-              )}
-
-            {/* Enhanced Form */}
-            <div className="bg-white rounded-3xl shadow-xl border border-gray-200 overflow-hidden">
-              <div className="bg-gradient-to-r from-indigo-600 to-purple-600 px-8 py-6">
-                <h3 className="text-2xl font-bold text-white flex items-center gap-3">
-                  <Search className="w-6 h-6" />
-                  College Search Parameters
-                </h3>
-                <p className="text-indigo-100 mt-2">Fill in your details to get personalized recommendations</p>
               </div>
 
-              <div className="p-8">
-                <div className="grid lg:grid-cols-2 gap-8">
+              <div className="p-10">
+                <div className="grid lg:grid-cols-2 gap-10">
                   {/* Left Column */}
-                  <div className="space-y-6">
+                  <div className="space-y-8">
                     {/* Percentile Input */}
                     <div className="group">
-                      <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-3">
-                        <div className="p-1 bg-indigo-100 rounded-lg">
-                          <TrendingUp className="w-4 h-4 text-indigo-600" />
+                      <label className="flex items-center gap-3 text-base font-bold text-gray-700 mb-4">
+                        <div className="p-2 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-xl shadow-md">
+                          <TrendingUp className="w-5 h-5 text-white" />
                         </div>
                         CET Percentile
-                        <span className="text-red-500">*</span>
+                        <span className="text-red-500 text-lg">*</span>
                       </label>
                       <div className="relative">
                         <input
@@ -309,22 +381,24 @@ function App() {
                           min="0"
                           max="100"
                           required
-                          placeholder="Enter your CET percentile (0-100)"
-                          className="w-full px-4 py-4 bg-gray-50 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 text-gray-800 text-lg group-hover:border-gray-300"
+                          placeholder="Enter your CET percentile"
+                          className="w-full px-6 py-5 bg-gray-50 border-3 border-gray-200 rounded-2xl focus:ring-4 focus:ring-indigo-500/30 focus:border-indigo-500 transition-all duration-300 text-gray-800 text-xl font-semibold group-hover:border-gray-300 shadow-sm"
                         />
-                        <div className="absolute right-4 top-4 text-gray-400 text-lg font-semibold">%</div>
+                        <div className="absolute right-6 top-5 text-gray-400 text-xl font-bold">%</div>
                       </div>
-                      <p className="text-xs text-gray-500 mt-2 flex items-center gap-1">
-                        <Info className="w-3 h-3" />
-                        Enter your actual CET percentile for accurate recommendations
-                      </p>
+                      <div className="flex items-start gap-2 mt-3 p-3 bg-blue-50 rounded-xl border border-blue-200">
+                        <AlertCircle className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />
+                        <p className="text-sm text-blue-700">
+                          Enter your actual CET percentile for the most accurate college recommendations
+                        </p>
+                      </div>
                     </div>
 
                     {/* Seat Types */}
                     <div className="group">
-                      <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-3">
-                        <div className="p-1 bg-purple-100 rounded-lg">
-                          <Users className="w-4 h-4 text-purple-600" />
+                      <label className="flex items-center gap-3 text-base font-bold text-gray-700 mb-4">
+                        <div className="p-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl shadow-md">
+                          <Users className="w-5 h-5 text-white" />
                         </div>
                         Seat Categories
                       </label>
@@ -335,90 +409,105 @@ function App() {
                           onChange={(e) =>
                             setSelectedSeatTypes(Array.from(e.target.selectedOptions).map(o => o.value))
                           }
-                          className="w-full px-4 py-4 bg-gray-50 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 text-gray-800 min-h-[120px] group-hover:border-gray-300"
+                          className="w-full px-6 py-4 bg-gray-50 border-3 border-gray-200 rounded-2xl focus:ring-4 focus:ring-indigo-500/30 focus:border-indigo-500 transition-all duration-300 text-gray-800 min-h-[140px] group-hover:border-gray-300 shadow-sm"
                         >
                           {seatTypeOptions.map((type) => (
-                            <option key={type} value={type} className="py-2">{type}</option>
+                            <option key={type} value={type} className="py-3 text-lg">{type}</option>
                           ))}
                         </select>
+                        <div className="absolute top-4 right-4 pointer-events-none">
+                          <ChevronDown className="w-5 h-5 text-gray-400" />
+                        </div>
                       </div>
-                      <p className="text-xs text-gray-500 mt-2 flex items-center gap-1">
-                        <Info className="w-3 h-3" />
-                        Hold Ctrl/Cmd to select multiple categories
-                      </p>
+                      <div className="flex items-center gap-2 mt-3">
+                        <CheckCircle className="w-4 h-4 text-green-600" />
+                        <p className="text-sm text-gray-600">Hold Ctrl/Cmd to select multiple categories</p>
+                      </div>
                     </div>
                   </div>
 
                   {/* Right Column */}
-                  <div className="space-y-6">
+                  <div className="space-y-8">
                     {/* Cities Selection */}
                     <div className="group">
-                      <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-3">
-                        <div className="p-1 bg-green-100 rounded-lg">
-                          <MapPin className="w-4 h-4 text-green-600" />
+                      <label className="flex items-center gap-3 text-base font-bold text-gray-700 mb-4">
+                        <div className="p-2 bg-gradient-to-r from-green-500 to-emerald-500 rounded-xl shadow-md">
+                          <MapPin className="w-5 h-5 text-white" />
                         </div>
                         Preferred Cities
                       </label>
-                      <select 
-                        multiple 
-                        value={selectedCities} 
-                        onChange={(e) => handleMultiSelect(e, setSelectedCities)}
-                        className="w-full px-4 py-4 bg-gray-50 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 text-gray-800 min-h-[120px] group-hover:border-gray-300"
-                      >
-                        {cityOptions.map((city) => (
-                          <option key={city} value={city} className="py-2">{city}</option>
-                        ))}
-                      </select>
-                      <p className="text-xs text-gray-500 mt-2 flex items-center gap-1">
-                        <Info className="w-3 h-3" />
-                        Select cities where you'd prefer to study
-                      </p>
+                      <div className="relative">
+                        <select 
+                          multiple 
+                          value={selectedCities} 
+                          onChange={(e) => handleMultiSelect(e, setSelectedCities)}
+                          className="w-full px-6 py-4 bg-gray-50 border-3 border-gray-200 rounded-2xl focus:ring-4 focus:ring-indigo-500/30 focus:border-indigo-500 transition-all duration-300 text-gray-800 min-h-[140px] group-hover:border-gray-300 shadow-sm"
+                        >
+                          {cityOptions.map((city) => (
+                            <option key={city} value={city} className="py-3 text-lg">{city}</option>
+                          ))}
+                        </select>
+                        <div className="absolute top-4 right-4 pointer-events-none">
+                          <ChevronDown className="w-5 h-5 text-gray-400" />
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2 mt-3">
+                        <Building className="w-4 h-4 text-green-600" />
+                        <p className="text-sm text-gray-600">Choose cities where you'd like to study</p>
+                      </div>
                     </div>
 
                     {/* Branches Selection */}
                     <div className="group">
-                      <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-3">
-                        <div className="p-1 bg-orange-100 rounded-lg">
-                          <BookOpen className="w-4 h-4 text-orange-600" />
+                      <label className="flex items-center gap-3 text-base font-bold text-gray-700 mb-4">
+                        <div className="p-2 bg-gradient-to-r from-orange-500 to-red-500 rounded-xl shadow-md">
+                          <BookOpen className="w-5 h-5 text-white" />
                         </div>
                         Engineering Branches
                       </label>
-                      <select 
-                        multiple 
-                        value={selectedBranches} 
-                        onChange={(e) => handleMultiSelect(e, setSelectedBranches)}
-                        className="w-full px-4 py-4 bg-gray-50 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 text-gray-800 min-h-[120px] group-hover:border-gray-300"
-                      >
-                        {branchOptions.map((branch) => (
-                          <option key={branch} value={branch} className="py-2">{branch}</option>
-                        ))}
-                      </select>
-                      <p className="text-xs text-gray-500 mt-2 flex items-center gap-1">
-                        <Info className="w-3 h-3" />
-                        Choose your preferred engineering branches
-                      </p>
+                      <div className="relative">
+                        <select 
+                          multiple 
+                          value={selectedBranches} 
+                          onChange={(e) => handleMultiSelect(e, setSelectedBranches)}
+                          className="w-full px-6 py-4 bg-gray-50 border-3 border-gray-200 rounded-2xl focus:ring-4 focus:ring-indigo-500/30 focus:border-indigo-500 transition-all duration-300 text-gray-800 min-h-[140px] group-hover:border-gray-300 shadow-sm"
+                        >
+                          {branchOptions.map((branch) => (
+                            <option key={branch} value={branch} className="py-3 text-lg">{branch}</option>
+                          ))}
+                        </select>
+                        <div className="absolute top-4 right-4 pointer-events-none">
+                          <ChevronDown className="w-5 h-5 text-gray-400" />
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2 mt-3">
+                        <GraduationCap className="w-4 h-4 text-orange-600" />
+                        <p className="text-sm text-gray-600">Select your preferred engineering specializations</p>
+                      </div>
                     </div>
                   </div>
                 </div>
 
-                {/* Submit Button */}
-                <div className="mt-10 flex justify-center">
+                {/* Enhanced Submit Button */}
+                <div className="mt-12 flex justify-center">
                   <button 
                     type="button"
                     onClick={handleSubmit}
                     disabled={loading || !percentile}
-                    className="group px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 disabled:from-gray-400 disabled:to-gray-500 text-white font-semibold rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 disabled:transform-none transition-all duration-200 flex items-center gap-3 text-lg"
+                    className="group relative px-12 py-6 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 hover:from-indigo-700 hover:via-purple-700 hover:to-pink-700 disabled:from-gray-400 disabled:to-gray-500 text-white font-bold rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 disabled:transform-none transition-all duration-300 flex items-center gap-4 text-xl overflow-hidden"
                   >
+                    <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
+                    
                     {loading ? (
                       <>
-                        <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                        Finding Perfect Matches...
+                        <div className="w-7 h-7 border-3 border-white/30 border-t-white rounded-full animate-spin"></div>
+                        <span>Finding Perfect Matches...</span>
                       </>
                     ) : (
                       <>
-                        <Search className="w-6 h-6 group-hover:scale-110 transition-transform duration-200" />
-                        Find My Colleges
-                        <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />
+                        <Search className="w-7 h-7 group-hover:scale-110 transition-transform duration-200" />
+                        <span>Find My Dream Colleges</span>
+                        <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform duration-200" />
                       </>
                     )}
                   </button>
@@ -426,15 +515,16 @@ function App() {
               </div>
             </div>
 
-            {/* Error Message */}
+            {/* Enhanced Error Message */}
             {error && (
-              <div className="bg-red-50 border-l-4 border-red-400 p-6 rounded-xl">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <X className="h-5 w-5 text-red-400" />
+              <div className="bg-gradient-to-r from-red-50 to-pink-50 border-2 border-red-200 p-6 rounded-2xl shadow-lg">
+                <div className="flex items-center gap-4">
+                  <div className="p-2 bg-red-100 rounded-xl">
+                    <AlertCircle className="h-6 w-6 text-red-600" />
                   </div>
-                  <div className="ml-3">
-                    <p className="text-red-700 font-medium">{error}</p>
+                  <div>
+                    <h4 className="font-bold text-red-800 text-lg">Oops! Something went wrong</h4>
+                    <p className="text-red-700">{error}</p>
                   </div>
                 </div>
               </div>
@@ -444,119 +534,144 @@ function App() {
 
         {/* Branch Trends Tab */}
         {activeTab === 'trends' && (
-          <div className="space-y-8">
-            <div className="text-center py-8">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-100 text-indigo-700 rounded-full text-sm font-medium mb-6">
-                <BarChart3 className="w-4 h-4" />
-                Historical Data Analysis
+          <div className="space-y-10">
+            <div className="text-center py-12">
+              <div className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700 rounded-full text-sm font-semibold mb-8 shadow-md">
+                <BarChart3 className="w-5 h-5" />
+                Historical Data Insights
               </div>
-              <h2 className="text-4xl font-bold text-gray-900 mb-4">
-                Branch <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">Admission Trends</span>
+              <h2 className="text-5xl font-bold text-gray-900 mb-6">
+                Branch <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">Analytics</span>
               </h2>
-              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                Analyze historical admission trends for specific colleges and branches
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                Dive deep into historical admission trends and make informed decisions about your college choices
               </p>
             </div>
 
-            <div className="bg-white rounded-3xl shadow-xl border border-gray-200 overflow-hidden">
-              <div className="bg-gradient-to-r from-indigo-600 to-purple-600 px-8 py-6">
-                <h3 className="text-2xl font-bold text-white flex items-center gap-3">
-                  <BarChart3 className="w-6 h-6" />
-                  Search Branch Trends
-                </h3>
-                <p className="text-indigo-100 mt-2">Enter college and branch details to view historical trends</p>
+            <div className="bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden">
+              <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 px-8 py-8">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="text-3xl font-bold text-white mb-2">Trend Analysis</h3>
+                    <p className="text-indigo-100 text-lg">Analyze admission patterns for specific colleges and branches</p>
+                  </div>
+                  <div className="hidden md:block">
+                    <div className="p-4 bg-white/20 rounded-2xl">
+                      <BarChart3 className="w-8 h-8 text-white" />
+                    </div>
+                  </div>
+                </div>
               </div>
 
-              <div className="p-8">
-                <form onSubmit={handleFetchBranchTrends} className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-6">
+              <div className="p-10">
+                <form onSubmit={handleFetchBranchTrends} className="space-y-8">
+                  <div className="grid md:grid-cols-2 gap-8">
                     <div className="group">
-                      <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-3">
-                        <div className="p-1 bg-indigo-100 rounded-lg">
-                          <BookOpen className="w-4 h-4 text-indigo-600" />
+                      <label className="flex items-center gap-3 text-base font-bold text-gray-700 mb-4">
+                        <div className="p-2 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-xl shadow-md">
+                          <Building className="w-5 h-5 text-white" />
                         </div>
                         College Name
-                        <span className="text-red-500">*</span>
+                        <span className="text-red-500 text-lg">*</span>
                       </label>
                       <input
                         type="text"
                         value={trendCollege}
                         onChange={(e) => setTrendCollege(e.target.value)}
                         placeholder="Enter exact college name"
-                        className="w-full px-4 py-4 bg-gray-50 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 text-gray-800 group-hover:border-gray-300"
+                        className="w-full px-6 py-5 bg-gray-50 border-3 border-gray-200 rounded-2xl focus:ring-4 focus:ring-indigo-500/30 focus:border-indigo-500 transition-all duration-300 text-gray-800 text-lg group-hover:border-gray-300 shadow-sm"
                         required
                       />
                     </div>
 
                     <div className="group">
-                      <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-3">
-                        <div className="p-1 bg-purple-100 rounded-lg">
-                          <TrendingUp className="w-4 h-4 text-purple-600" />
+                      <label className="flex items-center gap-3 text-base font-bold text-gray-700 mb-4">
+                        <div className="p-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl shadow-md">
+                          <BookOpen className="w-5 h-5 text-white" />
                         </div>
                         Branch Name
-                        <span className="text-red-500">*</span>
+                        <span className="text-red-500 text-lg">*</span>
                       </label>
                       <input
                         type="text"
                         value={trendBranch}
                         onChange={(e) => setTrendBranch(e.target.value)}
                         placeholder="Enter exact branch name"
-                        className="w-full px-4 py-4 bg-gray-50 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 text-gray-800 group-hover:border-gray-300"
+                        className="w-full px-6 py-5 bg-gray-50 border-3 border-gray-200 rounded-2xl focus:ring-4 focus:ring-indigo-500/30 focus:border-indigo-500 transition-all duration-300 text-gray-800 text-lg group-hover:border-gray-300 shadow-sm"
                         required
                       />
                     </div>
                   </div>
 
-                  <div className="flex justify-center pt-4">
+                  <div className="flex justify-center pt-6">
                     <button
                       type="submit"
-                      className="group px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 flex items-center gap-3 text-lg"
+                      className="group relative px-12 py-6 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 hover:from-indigo-700 hover:via-purple-700 hover:to-pink-700 text-white font-bold rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 flex items-center gap-4 text-xl overflow-hidden"
                     >
-                      <BarChart3 className="w-6 h-6 group-hover:scale-110 transition-transform duration-200" />
-                      Generate Trend Analysis
-                      <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />
+                      <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
+                      
+                      <BarChart3 className="w-7 h-7 group-hover:scale-110 transition-transform duration-200" />
+                      <span>Generate Trend Analysis</span>
+                      <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform duration-200" />
                     </button>
                   </div>
                 </form>
 
-                {/* Trend Chart */}
+                {/* Enhanced Trend Chart */}
                 {trendData.length > 0 && (
-                  <div className="mt-12 p-6 bg-gray-50 rounded-2xl">
-                    <div className="mb-6">
-                      <h4 className="text-xl font-bold text-gray-900 mb-2">
-                        Trend Analysis: {trendCollege} - {trendBranch}
-                      </h4>
-                      <p className="text-gray-600">Historical admission percentile trends over the years</p>
+                  <div className="mt-12 p-8 bg-gradient-to-br from-gray-50 to-indigo-50 rounded-3xl shadow-inner border border-gray-200">
+                    <div className="mb-8">
+                      <div className="flex items-center gap-4 mb-4">
+                        <div className="p-3 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-2xl shadow-lg">
+                          <TrendingUp className="w-6 h-6 text-white" />
+                        </div>
+                        <div>
+                          <h4 className="text-2xl font-bold text-gray-900">
+                            Trend Analysis: {trendCollege}
+                          </h4>
+                          <p className="text-lg text-indigo-600 font-semibold">{trendBranch}</p>
+                        </div>
+                      </div>
+                      <p className="text-gray-600 text-lg">Historical admission percentile trends over the years</p>
                     </div>
                     
-                    <div className="bg-white rounded-xl p-4 shadow-sm">
-                      <ResponsiveContainer width="100%" height={400}>
-                        <BarChart data={trendData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
+                    <div className="bg-white rounded-2xl p-6 shadow-xl border border-gray-200">
+                      <ResponsiveContainer width="100%" height={500}>
+                        <BarChart data={trendData} margin={{ top: 30, right: 30, left: 30, bottom: 30 }}>
                           <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
                           <XAxis 
                             dataKey="year" 
-                            fontSize={12}
+                            fontSize={14}
+                            fontWeight="600"
                             stroke="#6b7280"
                             tick={{ fill: '#6b7280' }}
                           />
                           <YAxis 
-                            fontSize={12}
+                            fontSize={14}
+                            fontWeight="600"
                             stroke="#6b7280"
                             tick={{ fill: '#6b7280' }}
                           />
                           <Tooltip 
                             contentStyle={{
                               backgroundColor: 'white',
-                              border: '1px solid #e5e7eb',
-                              borderRadius: '12px',
-                              boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)'
+                              border: '2px solid #e5e7eb',
+                              borderRadius: '16px',
+                              boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+                              fontSize: '14px',
+                              fontWeight: '600'
                             }}
                           />
-                          <Legend />
+                          <Legend 
+                            wrapperStyle={{
+                              fontSize: '14px',
+                              fontWeight: '600'
+                            }}
+                          />
                           <Bar 
                             dataKey="average_percentile" 
-                            fill="#6366f1" 
-                            radius={[4, 4, 0, 0]}
+                            fill="#6366f1"
+                            radius={[8, 8, 0, 0]}
                             name="Average Percentile"
                           />
                         </BarChart>
@@ -569,262 +684,316 @@ function App() {
           </div>
         )}
 
-        {/* Results Tab */}
+        {/* Enhanced Results Tab */}
         {activeTab === 'results' && results.length > 0 && (
-          <div className="space-y-8">
-            <div className="text-center py-8">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-100 text-green-700 rounded-full text-sm font-medium mb-6">
-                <Award className="w-4 h-4" />
-                {results.length} Colleges Found
+          <div className="space-y-10">
+            <div className="text-center py-12">
+              <div className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-green-100 to-emerald-100 text-green-700 rounded-full text-sm font-semibold mb-8 shadow-md">
+                <Award className="w-5 h-5" />
+                {results.length} Perfect Matches Found
               </div>
-              <h2 className="text-4xl font-bold text-gray-900 mb-4">
-                Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">Perfect Matches</span>
+              <h2 className="text-5xl font-bold text-gray-900 mb-6">
+                Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">Dream Colleges</span>
               </h2>
-              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                Based on your {percentile}% CET percentile, here are your recommended colleges
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                Based on your <span className="font-bold text-indigo-600">{percentile}%</span> CET percentile, 
+                here are your perfectly matched engineering colleges
               </p>
             </div>
 
-            <div className="bg-white rounded-3xl shadow-xl border border-gray-200 overflow-hidden">
-              <div className="bg-gradient-to-r from-indigo-600 to-purple-600 px-8 py-6">
-                <h3 className="text-2xl font-bold text-white flex items-center gap-3">
-                  <BookOpen className="w-6 h-6" />
-                  Recommended Colleges
-                </h3>
-                <p className="text-indigo-100 mt-2">Click "View Analytics" to see detailed admission statistics</p>
+            <div className="bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden">
+              <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 px-8 py-8">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="text-3xl font-bold text-white mb-2">Recommended Colleges</h3>
+                    <p className="text-indigo-100 text-lg">Click "View Analytics" to explore detailed admission insights</p>
+                  </div>
+                  <div className="hidden md:block">
+                    <div className="p-4 bg-white/20 rounded-2xl">
+                      <GraduationCap className="w-8 h-8 text-white" />
+                    </div>
+                  </div>
+                </div>
               </div>
               
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead className="bg-gray-50">
-                    <tr>
-                      <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">College Details</th>
-                      <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Branch</th>
-                      <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Category</th>
-                      <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Min Percentile</th>
-                      <th className="px-6 py-4 text-center text-sm font-semibold text-gray-900">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-200">
-                    {results.map((row, index) => (
-                      <tr key={index} className="hover:bg-indigo-50/50 transition-colors duration-200">
-                        <td className="px-6 py-6">
-                          <div>
-                            <div className="font-semibold text-gray-900 text-base mb-1">{row.college_name}</div>
-                            <div className="flex items-center gap-1 text-sm text-gray-600">
-                              <MapPin className="w-4 h-4 text-gray-400" />
-                              {row.city_guess}
-                            </div>
-                          </div>
-                        </td>
-                        <td className="px-6 py-6">
-                          <div className="text-sm font-medium text-gray-900">{row.branch}</div>
-                        </td>
-                        <td className="px-6 py-6">
-                          <span className="inline-flex px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-xs font-medium">
-                            {row.seat_type}
-                          </span>
-                        </td>
-                        <td className="px-6 py-6">
-                          <div className="flex items-center gap-2">
-                            <span className="text-lg font-bold text-gray-900">{row.min.toFixed(2)}%</span>
-                            {parseFloat(percentile) >= row.min && (
-                              <span className="inline-flex px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs font-medium">
-                                Eligible
-                              </span>
-                            )}
-                          </div>
-                        </td>
-                        <td className="px-6 py-6 text-center">
-                          <button 
-                            onClick={() => fetchCollegeStats(row.college_name, row.branch, row.min.toFixed(2))}
-                            className="group px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white text-sm font-medium rounded-xl shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200 flex items-center gap-2 mx-auto"
-                          >
-                            <Eye className="w-4 h-4 group-hover:scale-110 transition-transform duration-200" />
-                            View Analytics
-                          </button>
-                        </td>
+              <div className="overflow-hidden">
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead className="bg-gradient-to-r from-gray-50 to-indigo-50">
+                      <tr>
+                        <th className="px-8 py-6 text-left text-base font-bold text-gray-900">College Information</th>
+                        <th className="px-8 py-6 text-left text-base font-bold text-gray-900">Branch</th>
+                        <th className="px-8 py-6 text-left text-base font-bold text-gray-900">Category</th>
+                        <th className="px-8 py-6 text-left text-base font-bold text-gray-900">Required Percentile</th>
+                        <th className="px-8 py-6 text-center text-base font-bold text-gray-900">Actions</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody className="divide-y-2 divide-gray-100">
+                      {results.map((row, index) => (
+                        <tr key={index} className="hover:bg-gradient-to-r hover:from-indigo-50 hover:to-purple-50 transition-all duration-300 group">
+                          <td className="px-8 py-8">
+                            <div className="flex items-start gap-4">
+                              <div className="p-3 bg-gradient-to-r from-indigo-100 to-purple-100 rounded-2xl group-hover:scale-110 transition-transform duration-300">
+                                <Building className="w-6 h-6 text-indigo-600" />
+                              </div>
+                              <div>
+                                <div className="font-bold text-gray-900 text-lg mb-2">{row.college_name}</div>
+                                <div className="flex items-center gap-2 text-gray-600">
+                                  <MapPin className="w-4 h-4 text-gray-400" />
+                                  <span className="font-medium">{row.city_guess}</span>
+                                </div>
+                              </div>
+                            </div>
+                          </td>
+                          <td className="px-8 py-8">
+                            <div className="text-base font-semibold text-gray-900 bg-gray-100 px-4 py-2 rounded-xl">
+                              {row.branch}
+                            </div>
+                          </td>
+                          <td className="px-8 py-8">
+                            <span className="inline-flex px-4 py-2 bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-800 rounded-full text-sm font-bold shadow-sm">
+                              {row.seat_type}
+                            </span>
+                          </td>
+                          <td className="px-8 py-8">
+                            <div className="flex items-center gap-3">
+                              <span className="text-2xl font-bold text-gray-900">{row.min.toFixed(2)}%</span>
+                              {parseFloat(percentile) >= row.min ? (
+                                <span className="inline-flex items-center gap-1 px-3 py-1 bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 rounded-full text-sm font-bold shadow-sm">
+                                  <CheckCircle className="w-4 h-4" />
+                                  Eligible
+                                </span>
+                              ) : (
+                                <span className="inline-flex items-center gap-1 px-3 py-1 bg-gradient-to-r from-orange-100 to-red-100 text-orange-800 rounded-full text-sm font-bold shadow-sm">
+                                  <Clock className="w-4 h-4" />
+                                  Stretch
+                                </span>
+                              )}
+                            </div>
+                          </td>
+                          <td className="px-8 py-8 text-center">
+                            <button 
+                              onClick={() => fetchCollegeStats(row.college_name, row.branch, row.min.toFixed(2))}
+                              className="group/btn relative px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white text-sm font-bold rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-300 flex items-center gap-2 mx-auto overflow-hidden"
+                            >
+                              <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-500"></div>
+                              
+                              <Eye className="w-5 h-5 group-hover/btn:scale-110 transition-transform duration-200" />
+                              <span>View Analytics</span>
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
         )}
 
-        {/* College Analytics Modal */}
+        {/* Enhanced College Analytics Modal */}
         {selectedCollege && chartData.length > 0 && (
-          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
             <div className="bg-white rounded-3xl shadow-2xl max-w-7xl w-full max-h-[95vh] overflow-hidden">
-              {/* Modal Header */}
-              <div className="px-8 py-6 bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center justify-between">
-                <div>
-                  <h2 className="text-2xl font-bold text-white flex items-center gap-3">
-                    <TrendingUp className="w-6 h-6" />
-                    College Analytics Dashboard
-                  </h2>
-                  <p className="text-indigo-100 mt-1">{selectedCollege}</p>
+              {/* Enhanced Modal Header */}
+              <div className="px-8 py-6 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <div className="p-3 bg-white/20 rounded-2xl">
+                    <TrendingUp className="w-8 h-8 text-white" />
+                  </div>
+                  <div>
+                    <h2 className="text-3xl font-bold text-white">Analytics Dashboard</h2>
+                    <p className="text-indigo-100 text-lg font-medium mt-1">{selectedCollege}</p>
+                  </div>
                 </div>
                 <button 
                   onClick={() => setSelectedCollege(null)}
-                  className="p-2 bg-white/20 hover:bg-white/30 rounded-xl transition-colors duration-200 group"
+                  className="p-3 bg-white/20 hover:bg-white/30 rounded-2xl transition-colors duration-200 group"
                 >
-                  <X className="w-6 h-6 text-white group-hover:scale-110 transition-transform duration-200" />
+                  <X className="w-7 h-7 text-white group-hover:scale-110 transition-transform duration-200" />
                 </button>
               </div>
 
-              <div className="p-8 overflow-y-auto max-h-[calc(95vh-100px)]">
-                {/* Analytics Controls */}
-                <div className="bg-gray-50 rounded-2xl p-6 mb-8">
-                  <div className="flex flex-wrap items-center gap-4 mb-4">
-                    <h3 className="text-lg font-semibold text-gray-900">Analytics Controls</h3>
+              <div className="p-8 overflow-y-auto max-h-[calc(95vh-120px)]">
+                {/* Enhanced Analytics Controls */}
+                <div className="bg-gradient-to-br from-gray-50 to-indigo-50 rounded-3xl p-8 mb-10 border border-gray-200 shadow-inner">
+                  <div className="flex flex-wrap items-center gap-6 mb-6">
+                    <h3 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
+                      <div className="p-2 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-xl">
+                        <Filter className="w-6 h-6 text-white" />
+                      </div>
+                      Analytics Controls
+                    </h3>
                     <div className="flex-1"></div>
+                    
                     <button
                       onClick={() => setShowFilters(!showFilters)}
-                      className={`px-4 py-2 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 ${
+                      className={`px-6 py-3 rounded-2xl font-bold transition-all duration-300 flex items-center gap-3 shadow-md ${
                         showFilters 
-                          ? 'bg-indigo-100 text-indigo-700 shadow-sm' 
-                          : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'
+                          ? 'bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-lg scale-105' 
+                          : 'bg-white border-2 border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-gray-300'
                       }`}
                     >
-                      <Filter className="w-4 h-4" />
+                      <Filter className="w-5 h-5" />
                       {showFilters ? 'Hide Filters' : 'Show Filters'}
                     </button>
                     
                     <button 
                       onClick={exportChart}
-                      className="px-4 py-2 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white rounded-xl flex items-center gap-2 transition-all duration-200 transform hover:scale-105"
+                      className="px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white rounded-2xl flex items-center gap-3 transition-all duration-300 transform hover:scale-105 font-bold shadow-lg"
                     >
-                      <Download className="w-4 h-4" />
+                      <Download className="w-5 h-5" />
                       Export Chart
                     </button>
 
                     <button
                       onClick={() => fetchCollegeStats(selectedCollege)}
-                      className="px-4 py-2 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 text-gray-700 font-medium transition-all duration-200"
+                      className="px-6 py-3 bg-white border-2 border-gray-300 rounded-2xl hover:bg-gray-50 text-gray-700 font-bold transition-all duration-300 shadow-md hover:shadow-lg"
                     >
                       Reset View
                     </button>
                   </div>
 
-                  {/* Advanced Filters */}
+                  {/* Enhanced Advanced Filters */}
                   {showFilters && (
-                    <div className="grid md:grid-cols-2 gap-6 pt-6 border-t border-gray-200">
-                      <div className="space-y-2">
-                        <label className="block text-sm font-semibold text-gray-700">Filter by Seat Types:</label>
+                    <div className="grid md:grid-cols-2 gap-8 pt-8 border-t-2 border-gray-200">
+                      <div className="space-y-4">
+                        <label className="block text-base font-bold text-gray-700 flex items-center gap-2">
+                          <Users className="w-5 h-5 text-indigo-600" />
+                          Filter by Seat Types:
+                        </label>
                         <div className="relative">
                           <select 
                             multiple 
                             value={seatTypeFilter}
                             onChange={(e) => setSeatTypeFilter(Array.from(e.target.selectedOptions).map(o => o.value))}
-                            className="w-full px-4 py-3 bg-white border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 text-sm min-h-[100px]"
+                            className="w-full px-6 py-4 bg-white border-3 border-gray-200 rounded-2xl focus:ring-4 focus:ring-indigo-500/30 focus:border-indigo-500 transition-all duration-300 text-base min-h-[120px] shadow-sm"
                           >
                             {[...new Set(chartData.map(d => d.seat_type))].map((type, i) => (
-                              <option key={i} value={type} className="py-1">{type}</option>
+                              <option key={i} value={type} className="py-2 text-base">{type}</option>
                             ))}
                           </select>
+                          <div className="absolute top-4 right-4 pointer-events-none">
+                            <ChevronDown className="w-5 h-5 text-gray-400" />
+                          </div>
                         </div>
-                        <p className="text-xs text-gray-500">Hold Ctrl/Cmd to select multiple</p>
                       </div>
                       
-                      <div className="space-y-2">
-                        <label className="block text-sm font-semibold text-gray-700">Filter by Branches:</label>
+                      <div className="space-y-4">
+                        <label className="block text-base font-bold text-gray-700 flex items-center gap-2">
+                          <BookOpen className="w-5 h-5 text-purple-600" />
+                          Filter by Branches:
+                        </label>
                         <div className="relative">
                           <select 
                             multiple 
                             value={branchFilter}
                             onChange={(e) => setBranchFilter(Array.from(e.target.selectedOptions).map(o => o.value))}
-                            className="w-full px-4 py-3 bg-white border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 text-sm min-h-[100px]"
+                            className="w-full px-6 py-4 bg-white border-3 border-gray-200 rounded-2xl focus:ring-4 focus:ring-indigo-500/30 focus:border-indigo-500 transition-all duration-300 text-base min-h-[120px] shadow-sm"
                           >
                             {[...new Set(chartData.map(d => d.branch))].map((branch, i) => (
-                              <option key={i} value={branch} className="py-1">{branch}</option>
+                              <option key={i} value={branch} className="py-2 text-base">{branch}</option>
                             ))}
                           </select>
+                          <div className="absolute top-4 right-4 pointer-events-none">
+                            <ChevronDown className="w-5 h-5 text-gray-400" />
+                          </div>
                         </div>
-                        <p className="text-xs text-gray-500">Hold Ctrl/Cmd to select multiple</p>
                       </div>
                     </div>
                   )}
                 </div>
 
-                {/* Statistics Summary */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                  <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-2xl border border-blue-200">
-                    <div className="flex items-center gap-3 mb-2">
-                      <div className="p-2 bg-blue-100 rounded-xl">
-                        <BarChart3 className="w-5 h-5 text-blue-600" />
+                {/* Enhanced Statistics Summary */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
+                  <div className="bg-gradient-to-br from-blue-50 to-indigo-100 p-8 rounded-3xl border-2 border-blue-200 shadow-lg">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="p-3 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-2xl shadow-md">
+                        <BarChart3 className="w-7 h-7 text-white" />
                       </div>
-                      <h4 className="font-semibold text-gray-900">Total Data Points</h4>
+                      <h4 className="font-bold text-gray-900 text-lg">Total Records</h4>
                     </div>
-                    <p className="text-2xl font-bold text-blue-600">{filteredData.length}</p>
-                    <p className="text-sm text-gray-600">Admission records analyzed</p>
+                    <p className="text-4xl font-bold text-blue-600 mb-2">{filteredData.length}</p>
+                    <p className="text-base text-gray-600 font-medium">Admission data points</p>
                   </div>
                   
-                  <div className="bg-gradient-to-r from-green-50 to-emerald-50 p-6 rounded-2xl border border-green-200">
-                    <div className="flex items-center gap-3 mb-2">
-                      <div className="p-2 bg-green-100 rounded-xl">
-                        <TrendingUp className="w-5 h-5 text-green-600" />
+                  <div className="bg-gradient-to-br from-green-50 to-emerald-100 p-8 rounded-3xl border-2 border-green-200 shadow-lg">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="p-3 bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl shadow-md">
+                        <TrendingUp className="w-7 h-7 text-white" />
                       </div>
-                      <h4 className="font-semibold text-gray-900">Avg Percentile</h4>
+                      <h4 className="font-bold text-gray-900 text-lg">Avg Percentile</h4>
                     </div>
-                    <p className="text-2xl font-bold text-green-600">
+                    <p className="text-4xl font-bold text-green-600 mb-2">
                       {filteredData.length > 0 ? (filteredData.reduce((sum, item) => sum + item.percentile, 0) / filteredData.length).toFixed(1) : 0}%
                     </p>
-                    <p className="text-sm text-gray-600">Across all branches</p>
+                    <p className="text-base text-gray-600 font-medium">Across all branches</p>
                   </div>
                   
-                  <div className="bg-gradient-to-r from-purple-50 to-pink-50 p-6 rounded-2xl border border-purple-200">
-                    <div className="flex items-center gap-3 mb-2">
-                      <div className="p-2 bg-purple-100 rounded-xl">
-                        <BookOpen className="w-5 h-5 text-purple-600" />
+                  <div className="bg-gradient-to-br from-purple-50 to-pink-100 p-8 rounded-3xl border-2 border-purple-200 shadow-lg">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="p-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl shadow-md">
+                        <BookOpen className="w-7 h-7 text-white" />
                       </div>
-                      <h4 className="font-semibold text-gray-900">Branches</h4>
+                      <h4 className="font-bold text-gray-900 text-lg">Branches</h4>
                     </div>
-                    <p className="text-2xl font-bold text-purple-600">{[...new Set(filteredData.map(d => d.branch))].length}</p>
-                    <p className="text-sm text-gray-600">Available options</p>
+                    <p className="text-4xl font-bold text-purple-600 mb-2">{[...new Set(filteredData.map(d => d.branch))].length}</p>
+                    <p className="text-base text-gray-600 font-medium">Available options</p>
                   </div>
                 </div>
 
                 {/* Enhanced Chart */}
-                <div className="bg-white rounded-2xl border-2 border-gray-200 overflow-hidden">
-                  <div className="px-6 py-4 bg-gray-50 border-b border-gray-200">
-                    <h4 className="text-lg font-semibold text-gray-900">Admission Percentile Distribution</h4>
-                    <p className="text-sm text-gray-600 mt-1">Branch-wise percentile requirements across different seat categories</p>
+                <div className="bg-white rounded-3xl border-3 border-gray-200 overflow-hidden shadow-xl">
+                  <div className="px-8 py-6 bg-gradient-to-r from-gray-50 to-indigo-50 border-b-2 border-gray-200">
+                    <h4 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
+                      <div className="p-2 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-xl">
+                        <BarChart3 className="w-6 h-6 text-white" />
+                      </div>
+                      Admission Percentile Distribution
+                    </h4>
+                    <p className="text-base text-gray-600 mt-2 font-medium">Branch-wise percentile requirements across different seat categories</p>
                   </div>
                   
-                  <div id="chartContainer" className="p-6">
-                    <ResponsiveContainer width="100%" height={600}>
-                      <ScatterChart margin={{ top: 20, right: 20, bottom: 100, left: 20 }}>
-                              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                              <XAxis 
-                                type="category" 
-                                dataKey="branch" 
-                                angle={-45} 
-                                textAnchor="end" 
-                                interval={0} 
-                                height={120}
-                                fontSize={12}
-                                stroke="#6b7280"
-                              />
-                              <YAxis 
-                                type="number" 
-                                dataKey="percentile" 
-                                domain={[0, 100]} 
-                                fontSize={12}
-                                stroke="#6b7280"
-                              />
-                              <Tooltip />
-                              <Legend />
-                              {[...new Set(filteredData.map(d => d.seat_type))].map((type, i) => (
-                                <Scatter
-                                  key={type}
-                                  name={type}
-                                  data={filteredData.filter(d => d.seat_type === type)}
-                                  fill={getColor(i)}
-                                />
-                              ))}
-                            </ScatterChart>
+                  <div id="chartContainer" className="p-8">
+                    <ResponsiveContainer width="100%" height={700}>
+                      <ScatterChart margin={{ top: 30, right: 30, bottom: 120, left: 30 }}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" strokeWidth={2} />
+                        <XAxis 
+                          type="category" 
+                          dataKey="branch" 
+                          angle={-45} 
+                          textAnchor="end" 
+                          interval={0} 
+                          height={140}
+                          fontSize={13}
+                          fontWeight="600"
+                          stroke="#6b7280"
+                        />
+                        <YAxis 
+                          type="number" 
+                          dataKey="percentile" 
+                          domain={[0, 100]} 
+                          fontSize={13}
+                          fontWeight="600"
+                          stroke="#6b7280"
+                        />
+                        <Tooltip content={<CustomTooltip />} />
+                        <Legend 
+                          wrapperStyle={{
+                            fontSize: '14px',
+                            fontWeight: '600'
+                          }}
+                        />
+                        {[...new Set(filteredData.map(d => d.seat_type))].map((type, i) => (
+                          <Scatter
+                            key={type}
+                            name={type}
+                            data={filteredData.filter(d => d.seat_type === type)}
+                            fill={getColor(i)}
+                          />
+                        ))}
+                      </ScatterChart>
                     </ResponsiveContainer>
                   </div>
                 </div>

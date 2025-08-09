@@ -158,29 +158,38 @@ model = joblib.load("model.pkl")
 @app.route('/predict', methods=['POST'])
 def predict_admission():
     try:
-        data = request.get_json()
+        # Parse incoming JSON
+        data = request.get_json(force=True)
 
-        # Extract features
+        # Validate input
+        required_fields = ["percentile", "rank", "branch", "seat_type", "category", "score_type", "gender"]
+        missing_fields = [field for field in required_fields if data.get(field) is None]
+        if missing_fields:
+            return jsonify({"error": f"Missing fields: {', '.join(missing_fields)}"}), 400
+
+        # Create input features
         features = {
-            "percentile": float(data.get("percentile")),
-            "rank": int(data.get("rank")),
-            "branch": data.get("branch"),
-            "seat_type": data.get("seat_type"),
-            "category": data.get("category"),
-            "score_type": data.get("score_type"),
-            "gender": data.get("gender")
+            "percentile": float(data["percentile"]),
+            "rank": int(data["rank"]),
+            "branch": data["branch"],
+            "seat_type": data["seat_type"],
+            "category": data["category"],
+            "score_type": data["score_type"],
+            "gender": data["gender"]
         }
 
         # Convert to DataFrame
         input_df = pd.DataFrame([features])
 
-        # Predict
+        # Predict using model
         prediction = model.predict(input_df)
 
+        # Return response
         return jsonify({"predicted_college": prediction[0]})
 
     except Exception as e:
-        return jsonify({"error": str(e)}), 400
+        traceback.print_exc()  # Print detailed traceback in logs
+        return jsonify({"error": "Prediction failed", "details": str(e)}), 500
         
 
 if __name__ == '__main__':
