@@ -859,7 +859,7 @@ function App() {
                   {showFilters && (
                     <div className="grid md:grid-cols-2 gap-8 pt-8 border-t-2 border-gray-200">
                       <div className="space-y-4">
-                        <label className="block text-base font-bold text-gray-700 flex items-center gap-2">
+                        <label className="text-base font-bold text-gray-700 flex items-center gap-2">
                           <Users className="w-5 h-5 text-indigo-600" />
                           Filter by Seat Types:
                         </label>
@@ -881,7 +881,7 @@ function App() {
                       </div>
                       
                       <div className="space-y-4">
-                        <label className="block text-base font-bold text-gray-700 flex items-center gap-2">
+                        <label className="text-base font-bold text-gray-700 flex items-center gap-2">
                           <BookOpen className="w-5 h-5 text-purple-600" />
                           Filter by Branches:
                         </label>
